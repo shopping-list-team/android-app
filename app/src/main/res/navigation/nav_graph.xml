@@ -8,5 +8,14 @@
         android:id="@+id/accessFragment"
         android:name="com.mat.shoppinglist.AccessFragment"
         android:label="fragment_access"
-        tools:layout="@layout/fragment_access" />
+        tools:layout="@layout/fragment_access" >
+        <action
+            android:id="@+id/action_list_loaded"
+            app:destination="@id/listFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.mat.shoppinglist.ListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" />
 </navigation>
