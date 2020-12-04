@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:backgroundTint="@color/dark_green"
-        android:text="new list"
+        android:text="@string/new_list_label"
         app:cornerRadius="20dp"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -47,6 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
+            android:maxLength="8"
+            android:inputType="text"
             android:textSize="30sp"
             android:gravity="center"
             android:minWidth="300dp"
@@ -56,6 +58,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_open_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/til_access_code"

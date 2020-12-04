@@ -5,4 +5,5 @@
     <string name="enter_code_label">enter code...</string>
     <string name="open_list_label">open list</string>
     <string name="accesscode_label">ACCESSCODE</string>
+    <string name="new_list_label">new list</string>
 </resources>
