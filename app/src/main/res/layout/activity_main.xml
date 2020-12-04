@@ -15,10 +15,8 @@
         app:layout_constraintRight_toRightOf="parent"
         android:id="@+id/image_view_logo"
         android:layout_width="wrap_content"
-        android:scaleY="0.75"
-        android:scaleX="0.75"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_logo" />
+        app:srcCompat="@drawable/ic_logo"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
