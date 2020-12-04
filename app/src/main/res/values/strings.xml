@@ -6,4 +6,5 @@
     <string name="open_list_label">open list</string>
     <string name="accesscode_label">ACCESSCODE</string>
     <string name="new_list_label">new list</string>
+    <string name="access_code_label">access code</string>
 </resources>

@@ -10,12 +10,17 @@
         android:label="fragment_access"
         tools:layout="@layout/fragment_access" >
         <action
-            android:id="@+id/action_list_loaded"
+            android:id="@+id/action_load_list"
             app:destination="@id/listFragment" />
     </fragment>
     <fragment
         android:id="@+id/listFragment"
         android:name="com.mat.shoppinglist.ListFragment"
         android:label="fragment_list"
-        tools:layout="@layout/fragment_list" />
+        tools:layout="@layout/fragment_list" >
+        <argument
+            android:name="accessCode"
+            app:argType="string"
+            android:defaultValue='' />
+    </fragment>
 </navigation>
