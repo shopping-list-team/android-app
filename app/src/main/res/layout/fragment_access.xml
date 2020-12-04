@@ -68,12 +68,12 @@
             android:id="@+id/tiet_access_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:maxLength="8"
-            android:inputType="text"
-            android:textSize="30sp"
             android:gravity="center"
+            android:inputType="text"
+            android:maxLength="8"
+            android:maxLines="1"
             android:minWidth="300dp"
+            android:textSize="30sp"
             app:cornerRadius="20dp">
 
         </com.google.android.material.textfield.TextInputEditText>

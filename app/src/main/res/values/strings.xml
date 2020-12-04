@@ -7,4 +7,6 @@
     <string name="accesscode_label">ACCESSCODE</string>
     <string name="new_list_label">new list</string>
     <string name="access_code_label">access code</string>
+    <string name="listname_label">listname</string>
+    <string name="product_name_label">product name</string>
 </resources>
