@@ -22,5 +22,8 @@
             android:name="accessCode"
             app:argType="string"
             android:defaultValue='' />
+        <action
+            android:id="@+id/action_listFragment_to_accessFragment"
+            app:destination="@id/accessFragment" />
     </fragment>
 </navigation>
