@@ -10,7 +10,7 @@ class ListViewModel(
 ) : ViewModel() {
 
     private var _productList = MutableLiveData<Result<List<Product>>>()
-    val productList get() = _productList
+    val productList: LiveData<Result<List<Product>>> get() = _productList
 
     fun loadProducts(accessCode: String) =
         launch {
