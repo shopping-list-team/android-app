@@ -13,8 +13,13 @@ import android.widget.LinearLayout
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.mat.shoppinglist.databinding.FragmentAccessBinding
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.sample
 import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
 import retrofit2.HttpException
@@ -39,9 +44,11 @@ class AccessFragment : Fragment() {
         switchLayouts(true)
         observeList(viewModel.list)
         observeList(viewModel.newList)
-        binding.btOpenList.setOnClickListener {
-            triggerListGathering()
-        }
+        binding.btOpenList.clicks().sample(1000)
+            .onEach {
+                triggerListGathering()
+            }
+            .launchIn(lifecycleScope)
         binding.mbNewList.setOnClickListener {
             popListNameDialog()
         }
@@ -55,7 +62,7 @@ class AccessFragment : Fragment() {
                     findNavController().navigate(action)
                 }
                 is Result.Error -> {
-                    longToast(it.exception.localizedMessage ?: "undefined error")
+                    shortToast(it.exception.localizedMessage ?: "undefined error")
                     switchLayouts(true)
                 }
             }

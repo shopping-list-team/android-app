@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             app:hintAnimationEnabled="false"
             android:backgroundTint="@color/white"
+            android:textColorHint="@color/white"
             app:boxBackgroundMode="filled"
             android:hint="@string/listname_label">
 
@@ -40,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:inputType="text"
                 android:maxLines="1"
                 android:minWidth="200dp"
@@ -50,6 +52,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_remove_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -69,6 +72,7 @@
         app:layout_constraintTop_toBottomOf="@id/layout_linear_listname"
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="35sp"
+        android:textColor="@color/white"
         android:minWidth="300dp"
         android:gravity="center"
         android:background="@drawable/round"
@@ -101,6 +105,7 @@
             android:layout_height="wrap_content"
             app:hintAnimationEnabled="false"
             android:backgroundTint="@color/white"
+            android:textColorHint="@color/white"
             app:boxBackgroundMode="filled"
             android:hint="@string/product_name_label">
 
@@ -111,6 +116,7 @@
                 android:gravity="center"
                 android:inputType="text"
                 android:maxLines="1"
+                android:textColor="@color/white"
                 android:minWidth="200dp"
                 android:textSize="25sp"
                 app:cornerRadius="20dp">
@@ -119,6 +125,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_add_new_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -131,14 +138,16 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:scrollbars="vertical"
         android:id="@+id/rv_product_list"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_linear_itemname"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

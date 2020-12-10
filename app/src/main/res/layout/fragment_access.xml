@@ -61,6 +61,7 @@
         android:layout_height="wrap_content"
         app:hintAnimationEnabled="false"
         android:backgroundTint="@color/white"
+        android:textColorHint="@color/white"
         app:boxBackgroundMode="filled"
         android:hint="@string/access_code_label">
 
@@ -72,6 +73,7 @@
             android:inputType="text"
             android:maxLength="8"
             android:maxLines="1"
+            android:textColor="@color/white"
             android:minWidth="300dp"
             android:textSize="30sp"
             app:cornerRadius="20dp">

@@ -1,21 +1,18 @@
 package com.mat.shoppinglist
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mat.shoppinglist.databinding.FragmentAccessBinding
 import com.mat.shoppinglist.databinding.FragmentListBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), ProductHandler {
 
     private val viewModel: ListViewModel by viewModel()
     private lateinit var _binding: FragmentListBinding
@@ -24,9 +21,7 @@ class ListFragment : Fragment() {
     private val accessCode: String by lazy {
         args.accessCode.take(8)
     }
-    private val listName: String by lazy {
-        args.accessCode.takeLast(args.accessCode.length - 8)
-    }
+    private lateinit var listName: String
     private lateinit var adapter: ProductsAdapter
 
     override fun onCreateView(
@@ -39,14 +34,33 @@ class ListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        listName = args.accessCode.takeLast(args.accessCode.length - 8)
         registerBackCallback()
         binding.rvProductList.layoutManager = LinearLayoutManager(requireActivity())
-        adapter = ProductsAdapter()
+        adapter = ProductsAdapter(this)
         binding.rvProductList.adapter = adapter
         binding.tietListName.setText(listName)
         binding.tvAccessCode.text = accessCode
+        binding.btAddNewProduct.setOnClickListener {
+            sendNewProduct()
+        }
+        binding.tietListName.setOnFocusChangeListener { _, hasFocus ->
+            if(!hasFocus && binding.tietListName.text.toString() != listName) {
+                val updatedList = ProductList(binding.tietListName.text.toString(), accessCode)
+                viewModel.updateList(updatedList)
+            }
+        }
+        binding.btRemoveList.setOnClickListener {
+            val listToDelete = ProductList(listName, accessCode)
+            viewModel.deleteList(listToDelete)
+        }
         observeList()
         viewModel.loadProducts(accessCode)
+        observeNewProduct()
+        observeUpdatedList()
+        observeDeletedList()
+        observeDeletedProduct()
+        observeUpdatedProduct()
     }
 
     private fun observeList() {
@@ -54,12 +68,9 @@ class ListFragment : Fragment() {
             when(it) {
                 is Result.Success -> {
                     adapter.updateData(it.data)
-                    val dt = it.data
-                    Log.i("daata", "pobrana")
-                    println()
                 }
                 is Result.Error -> {
-                    longToast(it.exception.localizedMessage ?: "undefined error")
+                    shortToast(it.exception.localizedMessage ?: "undefined error")
                 }
             }
         }
@@ -73,6 +84,95 @@ class ListFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    private fun sendNewProduct() {
+        val text = binding.tietProductName.text.toString()
+        if(text.isEmpty()) {
+            shortToast("Product name can't be empty!")
+            return
+        }
+        viewModel.sendNewProduct(text, 1, accessCode, false)
+    }
+
+    private fun observeNewProduct() {
+        viewModel.newProduct.observe(viewLifecycleOwner) {
+            when(it) {
+                is Result.Success -> {
+                    viewModel.loadProducts(accessCode)
+                    binding.tietProductName.setText("")
+                    binding.tietProductName.clearFocus()
+                }
+                is Result.Error -> {
+                    shortToast(it.exception.localizedMessage ?: "undefined error")
+                }
+            }
+        }
+    }
+
+    private fun observeUpdatedList() {
+        viewModel.updatedList.observe(viewLifecycleOwner) {
+            when(it) {
+                is Result.Success -> {
+                    shortToast("list name changed successfully")
+                    listName = it.data.name
+                }
+                is Result.Error -> {
+                    binding.tietListName.setText(listName)
+                    shortToast(it.exception.localizedMessage ?: "undefined error")
+                }
+            }
+        }
+    }
+
+    private fun observeDeletedList() {
+        viewModel.deletedList.observe(viewLifecycleOwner) {
+            when(it) {
+                is Result.Success -> {
+                    val action = ListFragmentDirections.actionListFragmentToAccessFragment()
+                    findNavController().navigate(action)
+                    shortToast("$listName deleted")
+                }
+                is Result.Error -> {
+                    shortToast(it.exception.localizedMessage ?: "undefined error")
+                }
+            }
+        }
+    }
+
+    private fun observeDeletedProduct() {
+        viewModel.deletedProduct.observe(viewLifecycleOwner) {
+            when(it) {
+                is Result.Success -> {
+                    viewModel.loadProducts(accessCode)
+                }
+                is Result.Error -> {
+                    shortToast(it.exception.localizedMessage ?: "undefined error")
+                }
+            }
+        }
+    }
+
+    private fun observeUpdatedProduct() {
+        viewModel.updatedProduct.observe(viewLifecycleOwner) {
+            when(it) {
+                is Result.Success -> {
+                    viewModel.loadProducts(accessCode)
+                }
+                is Result.Error -> {
+                    shortToast(it.exception.localizedMessage ?: "undefined error")
+                }
+            }
+        }
+    }
+
+    override fun removeProduct(index: Int) {
+        viewModel.deleteProduct((viewModel.productList.value as Result.Success).data[index])
+    }
+
+    override fun updateProduct(index: Int, bought: Boolean) {
+        val product = (viewModel.productList.value as Result.Success).data[index].copy(is_bought = bought)
+        viewModel.updateProduct(product)
     }
 
 }

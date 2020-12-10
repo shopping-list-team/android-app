@@ -6,7 +6,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val URL = "http://47c66b7ff47d.eu.ngrok.io/"
+const val URL = "http://ca0caab70fb2.eu.ngrok.io/"
 
 val module = module {
     single { Retrofit.Builder()
