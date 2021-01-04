@@ -6,7 +6,7 @@
     android:id="@+id/layout_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListFragment">
+    tools:context=".view.ListFragment">
 
     <LinearLayout
         android:id="@+id/layout_linear_listname"
@@ -28,6 +28,8 @@
             app:boxCornerRadiusTopEnd="20dp"
             app:boxCornerRadiusTopStart="20dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:hintAnimationEnabled="false"
@@ -55,8 +57,8 @@
             android:id="@+id/bt_remove_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             app:iconSize="50dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             app:iconTint="@color/black"
             android:backgroundTint="@color/light_green"
             app:icon="@drawable/ic_delete">
@@ -101,6 +103,8 @@
             app:boxCornerRadiusTopEnd="20dp"
             app:boxCornerRadiusTopStart="20dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:hintAnimationEnabled="false"
@@ -128,8 +132,8 @@
             android:id="@+id/bt_add_new_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             app:iconSize="50dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:backgroundTint="@color/light_green"
             app:iconTint="@color/black"
             app:icon="@drawable/ic_add">

@@ -1,7 +1,8 @@
-package com.mat.shoppinglist
+package com.mat.shoppinglist.model
 
+import com.mat.shoppinglist.data.Product
+import com.mat.shoppinglist.data.ProductList
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.HttpException
 
 class Repository(

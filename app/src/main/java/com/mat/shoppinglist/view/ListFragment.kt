@@ -1,15 +1,25 @@
-package com.mat.shoppinglist
+package com.mat.shoppinglist.view
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mat.shoppinglist.*
+import com.mat.shoppinglist.adapters.ProductsAdapter
 import com.mat.shoppinglist.databinding.FragmentListBinding
+import com.mat.shoppinglist.data.ProductHandler
+import com.mat.shoppinglist.data.ProductList
+import com.mat.shoppinglist.model.Result
+import com.mat.shoppinglist.view.MainActivity.Companion.networkAvailable
+import com.mat.shoppinglist.viewmodel.ListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ListFragment : Fragment(), ProductHandler {
@@ -42,26 +52,39 @@ class ListFragment : Fragment(), ProductHandler {
         binding.tietListName.setText(listName)
         binding.tvAccessCode.text = accessCode
         binding.btAddNewProduct.setOnClickListener {
-            sendNewProduct()
+            checkConnectionAndRun { sendNewProduct() }
         }
         binding.tietListName.setOnFocusChangeListener { _, hasFocus ->
-            if(!hasFocus && binding.tietListName.text.toString() != listName) {
-                val updatedList = ProductList(binding.tietListName.text.toString(), accessCode)
-                viewModel.updateList(updatedList)
+            checkConnectionAndRun {
+                if(!hasFocus && binding.tietListName.text.toString() != listName) {
+                    val updatedList = ProductList(binding.tietListName.text.toString(), accessCode)
+                    updateList(updatedList)
+                }
             }
         }
         binding.btRemoveList.setOnClickListener {
-            val listToDelete = ProductList(listName, accessCode)
-            viewModel.deleteList(listToDelete)
+            checkConnectionAndRun {
+                val listToDelete = ProductList(listName, accessCode)
+                deleteList(listToDelete)
+            }
         }
+        binding.tvAccessCode.setOnClickListener {
+            val clipboardManager = requireActivity().getSystemService(ClipboardManager::class.java) as ClipboardManager
+            val clipData = ClipData.newPlainText("access_code", (it as TextView).text)
+            clipboardManager.setPrimaryClip(clipData)
+            shortToast("access code copied to clipboard!")
+        }
+        checkConnectionAndRun { loadProducts(accessCode) }
         observeList()
-        viewModel.loadProducts(accessCode)
         observeNewProduct()
         observeUpdatedList()
         observeDeletedList()
         observeDeletedProduct()
         observeUpdatedProduct()
     }
+
+    private fun toastNoConnection() =
+        shortToast("No internet connection")
 
     private fun observeList() {
         viewModel.productList.observe(viewLifecycleOwner) {
@@ -166,12 +189,28 @@ class ListFragment : Fragment(), ProductHandler {
         }
     }
 
+    private fun checkConnectionAndRun(func: ListViewModel.() -> Unit) {
+        if(!networkAvailable) {
+            toastNoConnection()
+            return
+        }
+        func(viewModel)
+    }
+
     override fun removeProduct(index: Int) {
+        if(!networkAvailable) {
+            toastNoConnection()
+            return
+        }
         viewModel.deleteProduct((viewModel.productList.value as Result.Success).data[index])
     }
 
     override fun updateProduct(index: Int, bought: Boolean) {
         val product = (viewModel.productList.value as Result.Success).data[index].copy(is_bought = bought)
+        if(!networkAvailable) {
+            toastNoConnection()
+            return
+        }
         viewModel.updateProduct(product)
     }
 

@@ -1,4 +1,4 @@
-package com.mat.shoppinglist
+package com.mat.shoppinglist.adapters
 
 import android.graphics.Paint
 import android.view.LayoutInflater
@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
+import com.mat.shoppinglist.R
+import com.mat.shoppinglist.data.Product
+import com.mat.shoppinglist.data.ProductHandler
 
 class ProductsAdapter(
         private val handler: ProductHandler

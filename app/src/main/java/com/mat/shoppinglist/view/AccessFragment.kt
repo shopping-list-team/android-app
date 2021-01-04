@@ -1,29 +1,27 @@
-package com.mat.shoppinglist
+package com.mat.shoppinglist.view
 
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.mat.shoppinglist.*
 import com.mat.shoppinglist.databinding.FragmentAccessBinding
-import kotlinx.coroutines.flow.debounce
+import com.mat.shoppinglist.data.ProductList
+import com.mat.shoppinglist.model.Result
+import com.mat.shoppinglist.viewmodel.AccessViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.sample
-import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
-import retrofit2.HttpException
-import java.lang.Exception
 
 class AccessFragment : Fragment() {
 
@@ -50,6 +48,10 @@ class AccessFragment : Fragment() {
             }
             .launchIn(lifecycleScope)
         binding.mbNewList.setOnClickListener {
+            if(!MainActivity.networkAvailable) {
+                shortToast("Network not available!")
+                return@setOnClickListener
+            }
             popListNameDialog()
         }
     }
@@ -58,7 +60,8 @@ class AccessFragment : Fragment() {
         list.observe(viewLifecycleOwner) {
             when(it) {
                 is Result.Success -> {
-                    val action = AccessFragmentDirections.actionLoadList("${it.data.access_code}${it.data.name}")
+                    val action =
+                        AccessFragmentDirections.actionLoadList("${it.data.access_code}${it.data.name}")
                     findNavController().navigate(action)
                 }
                 is Result.Error -> {

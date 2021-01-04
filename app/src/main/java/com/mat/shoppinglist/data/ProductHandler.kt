@@ -1,4 +1,4 @@
-package com.mat.shoppinglist
+package com.mat.shoppinglist.data
 
 interface ProductHandler {
     fun removeProduct(index: Int)

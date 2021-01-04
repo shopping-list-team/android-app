@@ -6,7 +6,7 @@
     app:startDestination="@id/accessFragment">
     <fragment
         android:id="@+id/accessFragment"
-        android:name="com.mat.shoppinglist.AccessFragment"
+        android:name="com.mat.shoppinglist.view.AccessFragment"
         android:label="fragment_access"
         tools:layout="@layout/fragment_access" >
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.mat.shoppinglist.ListFragment"
+        android:name="com.mat.shoppinglist.view.ListFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" >
         <argument

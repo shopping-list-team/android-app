@@ -1,4 +1,4 @@
-package com.mat.shoppinglist
+package com.mat.shoppinglist.data
 
 data class Product(
     val id: Int,

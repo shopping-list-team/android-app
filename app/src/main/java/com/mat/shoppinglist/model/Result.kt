@@ -1,4 +1,4 @@
-package com.mat.shoppinglist
+package com.mat.shoppinglist.model
 
 import retrofit2.HttpException
 

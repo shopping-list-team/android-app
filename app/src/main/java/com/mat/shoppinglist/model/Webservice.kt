@@ -1,5 +1,7 @@
-package com.mat.shoppinglist
+package com.mat.shoppinglist.model
 
+import com.mat.shoppinglist.data.Product
+import com.mat.shoppinglist.data.ProductList
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*

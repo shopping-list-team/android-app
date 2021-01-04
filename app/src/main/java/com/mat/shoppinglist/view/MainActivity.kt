@@ -1,4 +1,4 @@
-package com.mat.shoppinglist
+package com.mat.shoppinglist.view
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -7,6 +7,7 @@ import android.net.NetworkRequest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.mat.shoppinglist.R
 
 class MainActivity : AppCompatActivity() {
     companion object {

@@ -1,8 +1,12 @@
-package com.mat.shoppinglist
+package com.mat.shoppinglist.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mat.shoppinglist.data.ProductList
+import com.mat.shoppinglist.model.Repository
+import com.mat.shoppinglist.model.Result
+import com.mat.shoppinglist.launch
 
 class AccessViewModel(
     private val repository: Repository
